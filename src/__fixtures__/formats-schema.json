@@ -1,0 +1,56 @@
+{
+  "title": "model-with-formats",
+  "type": "object",
+  "properties": {
+    "date-of-birth": {
+      "type": ["number", "string", "array"],
+      "format": "date-time",
+      "items": {}
+    },
+    "name": {
+      "type": "string"
+    },
+    "id": {
+      "type": "number",
+      "format": "float"
+    },
+    "count": {
+      "type": ["integer", "null"],
+      "format": "int32"
+    },
+    "size": {
+      "type": ["number", "string"],
+      "format": "byte"
+    },
+    "notype": {
+      "format": "date-time"
+    },
+    "array-of-integers": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "map-of-ids": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "permissions": {
+      "type": ["string", "object"],
+      "format": "password",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    }
+  }
+}

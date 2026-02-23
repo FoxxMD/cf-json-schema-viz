@@ -1,0 +1,70 @@
+{
+  "name": "cf-json-schema-viz",
+  "version": "0.1.0",
+  "description": "A lightweight, CSS-in-JS-free React component for rendering JSON Schema definitions. Fork of @stoplight/json-schema-viewer.",
+  "keywords": [
+    "json-schema",
+    "react",
+    "schema-viewer",
+    "cloudflare",
+    "documentation"
+  ],
+  "sideEffects": false,
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattrothenberg/cf-json-schema-viz.git"
+  },
+  "homepage": "https://github.com/mattrothenberg/cf-json-schema-viz#readme",
+  "bugs": {
+    "url": "https://github.com/mattrothenberg/cf-json-schema-viz/issues"
+  },
+  "author": "Matt Rothenberg",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "playground": "vite",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.2.0",
+    "@phosphor-icons/react": "^2.1.7",
+    "@stoplight/json": "^3.21.7",
+    "@stoplight/json-schema-tree": "^4.0.0",
+    "@types/json-schema": "^7.0.15",
+    "clsx": "^2.1.1",
+    "jotai": "^2.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.0",
+    "vite": "^6.0.0",
+    "vitest": "^2.0.0"
+  }
+}
