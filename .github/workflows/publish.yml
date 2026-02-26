@@ -22,4 +22,4 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: pnpm publish --no-git-checks --provenance --access public
+      - run: npm publish --provenance --access public
