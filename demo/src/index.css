@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+
+/* Configure Tailwind to use class-based dark mode */
+@variant dark (&:where(.dark, .dark *));
+
+/* Import schema viewer styles after Tailwind so they take precedence */
+@import 'cf-json-schema-viz/styles.css';
+
+body {
+  @apply bg-white text-gray-900;
+}
+
+.dark body,
+body.dark {
+  @apply bg-gray-900 text-gray-100;
+}

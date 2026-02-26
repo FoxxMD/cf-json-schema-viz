@@ -1,0 +1,9 @@
+name = "cf-schema-viz-demo"
+main = "src/worker.tsx"
+compatibility_date = "2025-02-11"
+compatibility_flags = ["nodejs_compat"]
+assets = { directory = "./dist" }
+
+# Secrets (set via `wrangler secret put`):
+# - CLOUDFLARE_API_TOKEN: API token with Workers AI Read permission
+# - CLOUDFLARE_ACCOUNT_ID: Your account ID

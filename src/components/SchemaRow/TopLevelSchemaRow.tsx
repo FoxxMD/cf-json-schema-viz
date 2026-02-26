@@ -44,25 +44,7 @@ export const TopLevelSchemaRow: React.FC<Pick<SchemaRowProps, 'schemaNode'> & { 
   );
   const hasVendorProperties = totalVendorExtensions > 0;
 
-  // regular objects are flattened at the top level
-  if (isRegularNode(schemaNode) && isPureObjectNode(schemaNode)) {
-    return (
-      <>
-        {!skipDescription ? <Description value={schemaNode.annotations.description} /> : null}
-        {hasVendorProperties && renderExtensionAddon
-          ? renderExtensionAddon({ schemaNode, nestingLevel, vendorExtensions })
-          : null}
-        <ChildStack
-          schemaNode={schemaNode}
-          childNodes={childNodes}
-          currentNestingLevel={nestingLevel}
-          parentNodeId={nodeId}
-        />
-        <Error schemaNode={schemaNode} />
-      </>
-    );
-  }
-
+  // oneOf/anyOf combiners get a dropdown selector - check this before object flattening
   if (isRegularNode(schemaNode) && choices.length > 1) {
     const combiner = isRegularNode(schemaNode) && schemaNode.combiners?.length ? schemaNode.combiners[0] : null;
 
@@ -110,6 +92,25 @@ export const TopLevelSchemaRow: React.FC<Pick<SchemaRowProps, 'schemaNode'> & { 
         ) : combiner ? (
           <SchemaRow schemaNode={selectedChoice.type} nestingLevel={nestingLevel} />
         ) : null}
+      </>
+    );
+  }
+
+  // regular objects are flattened at the top level
+  if (isRegularNode(schemaNode) && isPureObjectNode(schemaNode)) {
+    return (
+      <>
+        {!skipDescription ? <Description value={schemaNode.annotations.description} /> : null}
+        {hasVendorProperties && renderExtensionAddon
+          ? renderExtensionAddon({ schemaNode, nestingLevel, vendorExtensions })
+          : null}
+        <ChildStack
+          schemaNode={schemaNode}
+          childNodes={childNodes}
+          currentNestingLevel={nestingLevel}
+          parentNodeId={nodeId}
+        />
+        <Error schemaNode={schemaNode} />
       </>
     );
   }
