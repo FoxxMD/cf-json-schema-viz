@@ -15,13 +15,38 @@ function last<T>(arr: T[]): T | undefined {
   return arr[arr.length - 1];
 }
 
-function calculateChoiceTitle(node: SchemaNode, isPlural: boolean): string {
+function calculateChoiceTitle(node: SchemaNode, isPlural: boolean, index?: number): string {
   const primitiveSuffix = isPlural ? 's' : '';
   if (isRegularNode(node)) {
     const realName = printName(node, { shouldUseRefNameFallback: true });
     if (realName) {
       return realName;
     }
+    
+    // For objects without a title, try to create a meaningful name from properties
+    if (node.primaryType === 'object' && !node.originalFragment.title) {
+      const fragment = node.originalFragment as { properties?: Record<string, unknown> };
+      if (fragment.properties) {
+        const propKeys = Object.keys(fragment.properties);
+        if (propKeys.length > 0) {
+          // Try to find a distinguishing property by looking at the first property's type
+          const firstProp = fragment.properties[propKeys[0]] as { type?: string } | undefined;
+          if (firstProp?.type && propKeys.length <= 3) {
+            // e.g., "object (audio: object)" or "object (audio: string)"
+            return `object (${propKeys[0]}: ${firstProp.type})`;
+          }
+          // Just list the property names if there are few
+          if (propKeys.length <= 2) {
+            return `object {${propKeys.join(', ')}}`;
+          }
+        }
+      }
+      // Fall back to "Option N" if we have an index
+      if (typeof index === 'number') {
+        return `Option ${index + 1}`;
+      }
+    }
+    
     return node.primaryType !== null
       ? node.primaryType + primitiveSuffix
       : String(node.originalFragment.title || 'any');
@@ -40,10 +65,10 @@ function calculateChoiceTitle(node: SchemaNode, isPlural: boolean): string {
   return 'any';
 }
 
-function makeChoice(node: SchemaNode): Choice {
+function makeChoice(node: SchemaNode, index?: number): Choice {
   return {
     type: node,
-    title: calculateChoiceTitle(node, false),
+    title: calculateChoiceTitle(node, false, index),
   };
 }
 
@@ -78,7 +103,7 @@ export const useChoices = (schemaNode: SchemaNode) => {
 
     // if current node is a combiner, offer its children
     if (isNonEmptyParentNode(schemaNode) && shouldShowChildSelector(schemaNode)) {
-      return schemaNode.children.map(makeChoice);
+      return schemaNode.children.map((child, index) => makeChoice(child, index));
     }
     // regular node, single choice - itself
     return [makeChoice(schemaNode)];
