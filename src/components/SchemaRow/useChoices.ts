@@ -18,14 +18,35 @@ function last<T>(arr: T[]): T | undefined {
 function calculateChoiceTitle(node: SchemaNode, isPlural: boolean, index?: number): string {
   const primitiveSuffix = isPlural ? 's' : '';
   if (isRegularNode(node)) {
+    // Check for explicit title first
+    const fragment = node.originalFragment as { 
+      title?: string; 
+      properties?: Record<string, unknown>;
+      oneOf?: Array<{ title?: string }>;
+      anyOf?: Array<{ title?: string }>;
+    };
+    if (fragment.title) {
+      return fragment.title;
+    }
+    
     const realName = printName(node, { shouldUseRefNameFallback: true });
     if (realName) {
       return realName;
     }
     
-    // For objects without a title, try to create a meaningful name from properties
-    if (node.primaryType === 'object' && !node.originalFragment.title) {
-      const fragment = node.originalFragment as { properties?: Record<string, unknown> };
+    // For objects without a title, try to create a meaningful name
+    if (node.primaryType === 'object') {
+      // If this object contains a nested oneOf/anyOf, use titles from those
+      const nestedCombiner = fragment.oneOf || fragment.anyOf;
+      if (nestedCombiner && nestedCombiner.length > 0) {
+        const nestedTitles = nestedCombiner
+          .map(item => item.title)
+          .filter((t): t is string => typeof t === 'string');
+        if (nestedTitles.length > 0) {
+          return nestedTitles.join(' / ');
+        }
+      }
+      
       if (fragment.properties) {
         const propKeys = Object.keys(fragment.properties);
         if (propKeys.length > 0) {
@@ -49,7 +70,7 @@ function calculateChoiceTitle(node: SchemaNode, isPlural: boolean, index?: numbe
     
     return node.primaryType !== null
       ? node.primaryType + primitiveSuffix
-      : String(node.originalFragment.title || 'any');
+      : 'any';
   }
   if (isReferenceNode(node)) {
     if (node.value) {
