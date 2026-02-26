@@ -96,6 +96,33 @@ For dark mode, the component automatically adjusts colors when `data-theme="dark
 - Sticky breadcrumb header showing current path when scrolling
 - Keyboard accessible
 
+## Demo
+
+See the component in action at [cf-json-schema-viz.mattr.workers.dev](https://cf-json-schema-viz.mattr.workers.dev) - a live demo that renders schemas for all Workers AI models.
+
+## Local Development
+
+```bash
+# Install dependencies
+pnpm install
+
+# Run the playground (component development)
+pnpm run playground
+
+# Run the demo app (Workers AI schema viewer)
+cd demo
+pnpm install
+cp .dev.vars.example .dev.vars  # Add your Cloudflare credentials
+pnpm run dev
+```
+
+The demo app requires Cloudflare API credentials to fetch model schemas. Create a `.dev.vars` file in the `demo` directory with:
+
+```
+CLOUDFLARE_ACCOUNT_ID=your-account-id
+CLOUDFLARE_API_TOKEN=your-api-token
+```
+
 ## Credits
 
 This project is a fork of [@stoplight/json-schema-viewer](https://github.com/stoplightio/json-schema-viewer) by [Stoplight](https://stoplight.io/). The core schema parsing is powered by [@stoplight/json-schema-tree](https://github.com/stoplightio/json-schema-tree).
