@@ -15,7 +15,7 @@ function last<T>(arr: T[]): T | undefined {
   return arr[arr.length - 1];
 }
 
-function calculateChoiceTitle(node: SchemaNode, isPlural: boolean, index?: number): string {
+function calculateChoiceTitle(node: SchemaNode, isPlural: boolean): string {
   const primitiveSuffix = isPlural ? 's' : '';
   if (isRegularNode(node)) {
     // Check for explicit title first
@@ -62,10 +62,8 @@ function calculateChoiceTitle(node: SchemaNode, isPlural: boolean, index?: numbe
           }
         }
       }
-      // Fall back to "Option N" if we have an index
-      if (typeof index === 'number') {
-        return `Option ${index + 1}`;
-      }
+      // Fall back to "object" for plain objects without distinguishing features
+      return 'object' + primitiveSuffix;
     }
     
     return node.primaryType !== null
@@ -86,10 +84,10 @@ function calculateChoiceTitle(node: SchemaNode, isPlural: boolean, index?: numbe
   return 'any';
 }
 
-function makeChoice(node: SchemaNode, index?: number): Choice {
+function makeChoice(node: SchemaNode): Choice {
   return {
     type: node,
-    title: calculateChoiceTitle(node, false, index),
+    title: calculateChoiceTitle(node, false),
   };
 }
 
@@ -124,7 +122,7 @@ export const useChoices = (schemaNode: SchemaNode) => {
 
     // if current node is a combiner, offer its children
     if (isNonEmptyParentNode(schemaNode) && shouldShowChildSelector(schemaNode)) {
-      return schemaNode.children.map((child, index) => makeChoice(child, index));
+      return schemaNode.children.map(child => makeChoice(child));
     }
     // regular node, single choice - itself
     return [makeChoice(schemaNode)];
