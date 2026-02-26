@@ -9,11 +9,20 @@ export default defineConfig({
     alias: {
       'cf-json-schema-viz': path.resolve(__dirname, '../src'),
       'cf-json-schema-viz/styles.css': path.resolve(__dirname, '../src/styles.css'),
+      // Replace lodash with lodash-es to avoid CJS require() calls
+      'lodash': 'lodash-es',
     },
+  },
+  optimizeDeps: {
+    include: ['@stoplight/json-schema-tree', '@stoplight/json'],
   },
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true,
+    },
   },
   server: {
     proxy: {
