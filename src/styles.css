@@ -255,12 +255,18 @@
   margin-left: -1.5rem;
   margin-right: 0.25rem;
   color: var(--jsv-color-muted);
+  background-color: var(--jsv-color-bg);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   flex-shrink: 0;
   transition: transform 0.15s ease;
+}
+
+/* Adjust caret position when inside content with extra margin */
+.jsv-ml-2 > .jsv-row-header > .jsv-caret {
+  margin-left: calc(-2rem + 2px);
 }
 
 .jsv-caret:hover {

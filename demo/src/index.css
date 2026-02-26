@@ -14,3 +14,12 @@ body {
 body.dark {
   @apply bg-gray-900 text-gray-100;
 }
+
+/* Override schema viewer bg to match our actual container backgrounds */
+:root {
+  --jsv-color-bg: #ffffff;
+}
+
+[data-theme="dark"] {
+  --jsv-color-bg: #1f2937; /* gray-800 - matches the schema container */
+}
