@@ -1,4 +1,4 @@
-name = "cf-schema-viz-demo"
+name = "cf-json-schema-viz"
 main = "src/worker.tsx"
 compatibility_date = "2025-02-11"
 compatibility_flags = ["nodejs_compat"]
