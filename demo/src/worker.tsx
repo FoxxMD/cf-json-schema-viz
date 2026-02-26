@@ -4,6 +4,7 @@ import { cache } from 'hono/cache';
 type Bindings = {
   CLOUDFLARE_API_TOKEN: string;
   CLOUDFLARE_ACCOUNT_ID: string;
+  ASSETS: Fetcher;
 };
 
 type Model = {
