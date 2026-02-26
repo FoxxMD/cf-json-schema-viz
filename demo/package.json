@@ -2,7 +2,7 @@
   "name": "cf-schema-viz-demo",
   "private": true,
   "type": "module",
-  "packageManager": "npm@10.9.2",
+  
   "scripts": {
     "start": "concurrently -k -n worker,vite -c blue,magenta \"npm run dev:worker\" \"npm run dev:vite\"",
     "dev": "npm run start",
