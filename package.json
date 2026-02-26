@@ -1,6 +1,6 @@
 {
   "name": "cf-json-schema-viz",
-  "version": "0.1.1",
+  "version": "0.3.0",
   "description": "A lightweight, CSS-in-JS-free React component for rendering JSON Schema definitions. Fork of @stoplight/json-schema-viewer.",
   "keywords": [
     "json-schema",
