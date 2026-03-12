@@ -41,6 +41,7 @@ export const JsonSchemaViewer: React.FC<JsonSchemaProps> = ({
   disableCrumbs,
   nodeHasChanged,
   skipTopLevelDescription,
+  markup,
   ...rest
 }) => {
   const options = React.useMemo(
@@ -54,6 +55,7 @@ export const JsonSchemaViewer: React.FC<JsonSchemaProps> = ({
       renderRootTreeLines,
       disableCrumbs,
       nodeHasChanged,
+      markup
     }),
     [
       defaultExpandedDepth,
@@ -65,6 +67,7 @@ export const JsonSchemaViewer: React.FC<JsonSchemaProps> = ({
       renderRootTreeLines,
       disableCrumbs,
       nodeHasChanged,
+      markup
     ],
   );
 

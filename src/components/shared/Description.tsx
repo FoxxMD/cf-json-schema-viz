@@ -1,11 +1,31 @@
 import * as React from 'react';
+import { JsonSchemaViewerErrorBoundary } from '../JsonSchemaViewer';
+import { useJSVOptionsContext } from '../../contexts';
+
+const Markdown = React.lazy(async () => { 
+  return await import ('react-markdown');
+});
 
 export interface DescriptionProps {
   value: unknown;
 }
 
+interface MarkupProps {
+  value: string
+}
+const MarkupWithFallback: React.FC<MarkupProps> = ({value}) => {
+  return (
+    <JsonSchemaViewerErrorBoundary fallback={value}>
+          <React.Suspense>
+            <Markdown>{value}</Markdown>
+          </React.Suspense>
+        </JsonSchemaViewerErrorBoundary>
+  );
+}
+
 export const Description: React.FC<DescriptionProps> = ({ value }) => {
   const [showAll, setShowAll] = React.useState(false);
+  const {markup = false} = useJSVOptionsContext();
 
   if (typeof value !== 'string' || value.trim().length === 0) return null;
 
@@ -14,7 +34,7 @@ export const Description: React.FC<DescriptionProps> = ({ value }) => {
   if (paragraphs.length <= 1 || showAll) {
     return (
       <div className="jsv-description" data-test="property-description">
-        {value}
+        {markup ? <MarkupWithFallback value={value}/>: value}
       </div>
     );
   }
@@ -24,7 +44,7 @@ export const Description: React.FC<DescriptionProps> = ({ value }) => {
   return (
     <div className="jsv-description" data-test="property-description">
       <p>
-        <span className="mr-1">{firstParagraph}</span>
+        <span className="mr-1">{markup ? <MarkupWithFallback value={firstParagraph}/>: firstParagraph}</span>
         <button
           type="button"
           className="text-jsv-primary cursor-pointer hover:underline"

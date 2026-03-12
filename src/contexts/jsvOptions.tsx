@@ -19,6 +19,7 @@ export type JSVOptions = {
   renderRootTreeLines?: boolean;
   disableCrumbs?: boolean;
   nodeHasChanged?: NodeHasChangedFn;
+  markup?: boolean;
 };
 
 const JSVOptionsContext = React.createContext<JSVOptions>({

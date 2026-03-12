@@ -13,7 +13,7 @@ const workersAISchema = {
         prompt: {
           type: 'string',
           minLength: 1,
-          description: 'The input text prompt for the model to generate a response.',
+          description: 'The **input** text *prompt* for the model to generate a response.',
         },
         guided_json: {
           type: 'object',
@@ -437,6 +437,7 @@ function App() {
       }}>
         <JsonSchemaViewer
           schema={workersAISchema}
+          markup
           defaultExpandedDepth={2}
           data-theme={darkMode ? 'dark' : undefined}
         />
